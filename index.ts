@@ -6,6 +6,7 @@
 // == Step 2 - Test the Constraints
 import { Temporal } from "@js-temporal/polyfill";
 import { Student, isStudent, parseStudent } from "./models/student.model";
+import { AssessmentItem, calculateGrade } from "./models/assessment.model";
 
 const student: Student = {
     id: "STU-001",
@@ -53,3 +54,36 @@ console.log(parseStudent({ id: "STU-001", name: "Hana" }));
 
 // parseStudent({ id: 42, name: "Test" });
 // Throws: TypeError: Expected id to be a string received number
+
+
+// ==== Exercise 4: Assessment Type (Discriminated Unions) ====
+
+// == Step 1 - Define the Union ==
+// Check assessment.model.ts for "interface Quiz" and "interface LabAssignment"
+
+// == Step 2 - Write the Grade Calculator ==
+// Check assessment.model.ts for "function calculateGrade)item: AssessmentItem"
+
+// == Step 3 - Test it ==
+const quiz: AssessmentItem = {
+    id: "QUIZ-001",
+    kind: "quiz",
+    title: "SQL Basics",
+    correctAnswers: 8,
+    totalQuestions: 10,
+};
+
+const lab: AssessmentItem = {
+    id: "LAB-001",
+    kind: "lab",
+    title: "REST API Project",
+    functionalityScore: 85,
+    codeQualityScore: 90,
+};
+
+console.log(`Quiz grade: ${calculateGrade(quiz)%}`); // 80
+console.log(`Lab grade: ${calculateGrade(lab)}%`); // 87
+
+// Verify readonly try this line and check the compiler error:
+quiz.id = "QUIZ-999";
+// ERROR: Cannot assign to 'id' because it is a read-only property
