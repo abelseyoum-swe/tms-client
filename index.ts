@@ -5,7 +5,7 @@
 
 // == Step 2 - Test the Constraints
 import { Temporal } from "@js-temporal/polyfill";
-import { Student, isStudent } from "./models/student.model";
+import { Student, isStudent, parseStudent } from "./models/student.model";
 
 const student: Student = {
     id: "STU-001",
@@ -44,3 +44,12 @@ processStudent({id: "STU-001", name: "Hana", gpa: 3.7});
 
 processStudent(42);
 // Prints: Invalid student data
+
+
+// ==== Exercise 3 Part B: Throwing on Invalid Data ====
+
+console.log(parseStudent({ id: "STU-001", name: "Hana" }));
+// Prints a valid Student object
+
+// parseStudent({ id: 42, name: "Test" });
+// Throws: TypeError: Expected id to be a string received number
