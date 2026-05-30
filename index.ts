@@ -7,6 +7,7 @@
 import { Temporal } from "@js-temporal/polyfill";
 import { Student, isStudent, parseStudent } from "./models/student.model";
 import { AssessmentItem, calculateGrade } from "./models/assessment.model";
+import { describeEnrollment, EnrollmentStatus } from "./models/enrollment.model";
 
 const student: Student = {
     id: "STU-001",
@@ -81,9 +82,38 @@ const lab: AssessmentItem = {
     codeQualityScore: 90,
 };
 
-console.log(`Quiz grade: ${calculateGrade(quiz)%}`); // 80
+console.log(`Quiz grade: ${calculateGrade(quiz)}%`); // 80
 console.log(`Lab grade: ${calculateGrade(lab)}%`); // 87
 
 // Verify readonly try this line and check the compiler error:
-quiz.id = "QUIZ-999";
+// quiz.id = "QUIZ-999";
 // ERROR: Cannot assign to 'id' because it is a read-only property
+
+
+// ==== Exercise 5 : Enrollment Lifecycle (State Machine Union) ====
+
+// // Legacy 27 impossible states allowed
+// interface EnrollmentBad {
+//     isPending: boolean;
+//     isApproved: boolean;
+//     isActive: boolean;
+//     isCompleted: boolean;
+//     isDropped: boolean;
+// };
+
+// == Step 1 - Model the Enrollment Lifecycle ==
+// Check enrollment.model.ts for "type EnrollmentStatus")"
+
+// == Step 2 - Write the Exhaustive Handler ==
+// Check enrollment.model.ts for "function describeEnrollment(enrollment: EnrollmentStatus)"
+
+// == Step 3 - Test and Break It ==
+const pending: EnrollmentStatus = {
+    status: "PENDING",
+    requestedAt: Temporal.Now.instant(),
+    studentId: "STU-001",
+    courseId: "CRS-101",
+};
+
+console.log(describeEnrollment(pending));
+// Awaiting approval since 2026-05-08T...
