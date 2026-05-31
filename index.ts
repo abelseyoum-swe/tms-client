@@ -8,6 +8,7 @@ import { Temporal } from "@js-temporal/polyfill";
 import { Student, isStudent, parseStudent } from "./models/student.model";
 import { AssessmentItem, calculateGrade } from "./models/assessment.model";
 import { describeEnrollment, EnrollmentStatus } from "./models/enrollment.model";
+import { CourseStatus, describeCourse } from "./models/course.model";
 
 const student: Student = {
     id: "STU-001",
@@ -117,3 +118,16 @@ const pending: EnrollmentStatus = {
 
 console.log(describeEnrollment(pending));
 // Awaiting approval since 2026-05-08T...
+
+
+// ==== Exercise 5 Part B: Course Lifecycle ====
+
+// Check models/course.model.ts for "type CourseStatus" and "function describeCourse"
+
+const webDev: CourseStatus = {
+    status: "ACTIVE",
+    enrolledCount: 28,
+    startDate: Temporal.PlainDate.from("2026-09-01"),
+};
+console.log(describeCourse(webDev));
+// Should print something like: Active with 28 students since 2026-09-01

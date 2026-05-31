@@ -21,7 +21,7 @@ export type EnrollmentStatus =
 export function describeEnrollment(enrollment: EnrollmentStatus): string {
     switch (enrollment.status) {
         case "PENDING":
-            return `Awaiting approval since $${enrollment.requestedAt}`;
+            return `Awaiting approval since ${enrollment.requestedAt}`;
         case "APPROVED":
             return `Approved by ${enrollment.approvedAt}`;
         case "ACTIVE":
