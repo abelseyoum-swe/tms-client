@@ -8,7 +8,8 @@ import { Temporal } from "@js-temporal/polyfill";
 import { Student, isStudent, parseStudent } from "./models/student.model";
 import { AssessmentItem, calculateGrade } from "./models/assessment.model";
 import { describeEnrollment, EnrollmentStatus } from "./models/enrollment.model";
-import { CourseStatus, describeCourse } from "./models/course.model";
+import { Course, CourseStatus, describeCourse } from "./models/course.model";
+import { ApiResponse, renderResponse } from "./models/api-response.model";
 
 const student: Student = {
     id: "STU-001",
@@ -131,3 +132,48 @@ const webDev: CourseStatus = {
 };
 console.log(describeCourse(webDev));
 // Should print something like: Active with 28 students since 2026-09-01
+
+
+// ==== Exercise 6: Reusable API Response (Generics) ====
+
+// == Step 1 - Define the Generic ==
+// Check models/api-response.model.ts for "type ApiResponse<T>"
+
+// == Step 2 - Write the Renderer ==
+// Check models/api-response.model.ts for "function renderResponse"
+
+// == Step 3 - Test with Different Data Types ==
+const studentRes: ApiResponse<Student> = {
+    status: "success",
+    data: {
+        id: "STU-001",
+        name: "Dawit Bekele",
+        enrollmentDate: Temporal.Now.instant(),
+        gpa: 3.4,
+    },
+    fetchedAt: Temporal.Now.instant(),
+};
+
+console.log(
+    renderResponse(studentRes, (s) => `${s.name} GPA:${s.gpa ?? "N/A"}`),
+);
+
+// Now test with a different data type
+const courseListRes: ApiResponse<Course[]> = {
+    status: "success",
+    data: [
+        {
+            id: "CRS-101",
+            title: "Web Development Fundamentals",
+            capacity: 30,
+            startDate: Temporal.PlainDate.from("2026-09-01"),
+        },
+    ],
+    fetchedAt: Temporal.Now.instant(),
+};
+
+console.log(
+    renderResponse(courseListRes, (courses) => 
+        courses.map((c) => c.title).join(", "),
+    ),
+);
