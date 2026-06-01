@@ -177,3 +177,30 @@ console.log(
         courses.map((c) => c.title).join(", "),
     ),
 );
+
+
+// ==== Exercise 7: Temporal Timestamps (Dates, Timezones, Durations) ====
+
+// 1. Record the exact moment an enrollment is approved (UTC)
+const approvedAt = Temporal.Now.instant();
+console.log(`Approved at (UTC): ${approvedAt.toString({smallestUnit: "second"})}`);
+
+// 2. Display in local timezone
+const addisTime = approvedAt.toZonedDateTimeISO("Africa/Addis_Ababa");
+const londonTime = approvedAt.toZonedDateTimeISO("Europe/London");
+console.log(`Addis: ${addisTime.toPlainTime().toString({smallestUnit: "second"})}`);
+console.log(`London: ${londonTime.toPlainTime().toString({smallestUnit: "second"})}`);
+// Same moment, different wall-clock time
+
+// 3. Course start date (date only, no time)
+const courseStart = Temporal.PlainDate.from("2026-09-01");
+const today = Temporal.Now.plainDateISO();
+const daysUntilStart = today.until(courseStart).total({unit: "days"});
+console.log(`${Math.floor(daysUntilStart)} days until course starts`);
+
+// 4. Assignment deadline duration
+const deadline = Temporal.PlainDate.from("2026-12-15");
+const remaining = today.until(deadline);
+console.log(
+    `${remaining.total({unit: "days"})} days until assignment is due`,
+);
